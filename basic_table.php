@@ -1,11 +1,67 @@
-<?PHP
-include "../core/promotionC.php";
-$promotion1C=new PromotionC();
-$listePromotions=$promotion1C->afficherPromotion();
+<?php
+include "../core/compteC.php";
+include "../entities/Compte.php";
+session_start();
+$CompteXC=new compteC();
 
-//var_dump($listeEmployes->fetchAll());
+$CompteParPage = 5;
+$CompteTotalBDD = $CompteXC->NBcompte();
+$CompteTotal=$CompteTotalBDD->rowCount();
+$pageTotales=ceil($CompteTotal/$CompteParPage);
+if (isset($_GET['page']) && !empty(isset($_GET['page'])) && $_GET['page'] >0 ){
+  $_GET['page']=intval($_GET['page']);
+  $pageCourante=$_GET['page'];
+}
+else {
+  $pageCourante=1;
+}
+
+$depart= ($pageCourante-1)*$CompteParPage;
+if (isset($_GET['supprimer']) AND !empty($_GET['supprimer']))
+{
+  $supprimer= (int) $_GET['supprimer'];
+ $CompteXC->supprimerCompte($supprimer);
+ 
+}
+
+if (isset($_POST['search']) AND !empty($_POST['search'])  AND isset($_POST['IDsearch']) AND !empty($_POST['IDsearch']))
+{
+  $bar=1;
+  $membreSRCH= $_POST['IDsearch'];
+$ALL=$CompteXC->afficherCompte($membreSRCH);
+$IDS=$CompteXC->GET_ID($membreSRCH);
+$ALL1=$CompteXC->afficherCompte_L($IDS);
+}                                  
+
+else if (isset($_POST['ancien'])){
+  $bar=0;
+  $ALL=$CompteXC-> AfficherAncien($depart,$CompteParPage);
+  $ALL1=$CompteXC-> AfficherAncienL($depart,$CompteParPage);
+}
+
+else if (isset($_POST['recent'])){
+  $bar=0;
+  $ALL=$CompteXC->AfficherRecent($depart,$CompteParPage);
+  $ALL1=$CompteXC->AfficherRecentL($depart,$CompteParPage);
+}
+else if (isset($_POST['NonActif'])){
+  $bar=5;
+  $ALL=$CompteXC->AfficherNonActif();
+
+}
+else if (isset($_POST['Actif'])){
+  $bar=5;
+  $ALL=$CompteXC->AfficherActif();
+
+
+}
+
+else{
+  $bar=0;
+$ALL=$CompteXC->afficherBase($depart,$CompteParPage);
+$ALL1=$CompteXC->afficherBase_L($depart,$CompteParPage);
+}
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +84,7 @@ $listePromotions=$promotion1C->afficherPromotion();
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
   <link href="css/style-responsive.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/dash.css">
   
   <!-- =======================================================
     Template Name: Dashio
@@ -259,29 +316,171 @@ $listePromotions=$promotion1C->afficherPromotion();
               <span>Dashboard</span>
               </a>
           </li>
-          
-          
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-tasks"></i>
-              <span>¨PROMOTION</span>
+              <i class="fa fa-desktop"></i>
+              <span>UI Elements</span>
               </a>
             <ul class="sub">
               <li>
- <li class="active">
-                <a href="basic_table.html">Basic Table</a>
-              </li>              </li>
+                <a href="general.html">General</a>
+              </li>
               <li>
-                <a href="ajoutetmodifier.php">AJOUTER PROMOTION</a>
+                <a href="buttons.html">Buttons</a>
+              </li>
+              <li>
+                <a href="panels.html">Panels</a>
+              </li>
+              <li>
+                <a href="font_awesome.html">Font Awesome</a>
+              </li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-cogs"></i>
+              <span>Components</span>
+              </a>
+            <ul class="sub">
+              <li>
+                <a href="grids.html">Grids</a>
+              </li>
+              <li>
+                <a href="calendar.html">Calendar</a>
+              </li>
+              <li>
+                <a href="gallery.html">Gallery</a>
+              </li>
+              <li>
+                <a href="todo_list.html">Todo List</a>
+              </li>
+              <li>
+                <a href="dropzone.html">Dropzone File Upload</a>
+              </li>
+              <li>
+                <a href="inline_editor.html">Inline Editor</a>
+              </li>
+              <li>
+                <a href="file_upload.html">Multiple File Upload</a>
+              </li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>Extra Pages</span>
+              </a>
+            <ul class="sub">
+              <li>
+                <a href="blank.html">Blank Page</a>
+              </li>
+              <li>
+                <a href="login.html">Login</a>
+              </li>
+              <li>
+                <a href="lock_screen.html">Lock Screen</a>
+              </li>
+              <li>
+                <a href="profile.html">Profile</a>
+              </li>
+              <li>
+                <a href="invoice.html">Invoice</a>
+              </li>
+              <li>
+                <a href="pricing_table.html">Pricing Table</a>
+              </li>
+              <li>
+                <a href="faq.html">FAQ</a>
+              </li>
+              <li>
+                <a href="404.html">404 Error</a>
+              </li>
+              <li>
+                <a href="500.html">500 Error</a>
+              </li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-tasks"></i>
+              <span>Forms</span>
+              </a>
+            <ul class="sub">
+              <li>
+                <a href="form_component.html">Form Components</a>
+              </li>
+              <li>
+                <a href="advanced_form_components.html">Advanced Components</a>
               </li>
               <li>
                 <a href="form_validation.html">Form Validation</a>
               </li>
             </ul>
           </li>
-         
-          
-          
+          <li class="sub-menu">
+            <a class="active" href="javascript:;">
+              <i class="fa fa-th"></i>
+              <span>Data Tables</span>
+              </a>
+            <ul class="sub">
+              <li class="active">
+                <a href="basic_table.html">Basic Table</a>
+              </li>
+              <li>
+                <a href="responsive_table.html">Responsive Table</a>
+              </li>
+              <li>
+                <a href="advanced_table.html">Advanced Table</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Mail </span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class=" fa fa-bar-chart-o"></i>
+              <span>Charts</span>
+              </a>
+            <ul class="sub">
+              <li>
+                <a href="morris.html">Morris</a>
+              </li>
+              <li>
+                <a href="chartjs.html">Chartjs</a>
+              </li>
+              <li>
+                <a href="flot_chart.html">Flot Charts</a>
+              </li>
+              <li>
+                <a href="xchart.html">xChart</a>
+              </li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-comments-o"></i>
+              <span>Chat Room</span>
+              </a>
+            <ul class="sub">
+              <li>
+                <a href="lobby.html">Lobby</a>
+              </li>
+              <li>
+                <a href="chat_room.html"> Chat Room</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="google_maps.html">
+              <i class="fa fa-map-marker"></i>
+              <span>Google Maps </span>
+              </a>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
@@ -293,82 +492,206 @@ $listePromotions=$promotion1C->afficherPromotion();
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
-       
-            
-          <!-- /col-md-12 -->
-          
-        <!-- row -->
+        <h3><i class="fa fa-angle-right"></i> Client</h3>
+
         <div class="row mt">
+          
           <div class="col-md-12">
             <div class="content-panel">
+              
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> Advanced Table</h4>
+                
+                <header class="panel-heading wht-bg">
+                <h4 class="gen-case">
+                    Rechercher par :
+                    <form action="basic_table.php" class="pull-right mail-src-position" method="POST">
+                      <div class="input-append">
+                        <!-- firas -->
+                        
+                        <input type="search" class="form-control-sm"  style="width:600px;" placeholder="id,email,nom,telephone..." name="IDsearch">   |
+                        <input type="submit" name="search" value="search">
+                                  <br><br><br>
+                                  Ou Trier par :
+                                  <br> <br>
+                        <input type="submit" name="recent" value="Les plus recents" class="tri"> |
+                <input type="submit" name="ancien" value="Les plus anciens" class="tri2"> |
+                <input type="submit" name="NonActif" value="Compte non actifs" class="tri2"> |
+                <input type="submit" name="Actif" value="Compte actifs" class="tri2">
+                      </div>
+                      
+                    </form>
+                  </h4>
+              </header>
                 <hr>
                 <thead>
+                <h4><i class="fa fa-angle-right"></i> Compte clients</h4>
+                
                   <tr>
-                    <th><i class="fa fa-bullhorn"></i> ID PROMOTION </th>
-                    <th class="hidden-phone"><i class="fa fa-question-circle"></i>SOLDE</th>
-                    <th><i class="fa fa-bookmark"></i> DATE DEBUT</th>
-                    <th><i class=" fa fa-edit"></i> DATE FIN </th>
-                   
-                     <th>NOM PRODUIT</th>
-                      <th></th>
+                    <th><i class="fa fa-user"></i>ID</th>
+                    <th ><i class="fa fa-address-book-o"></i> Nom</th>
+                    <th><i class="fa fa-at"></i> Email</th>
+                    <th><i class="fa fa-phone"></i> telephone</th>
+                    <th><i class="fa fa-key"></i> mot de passe</th>
+                    <th><i class=" fa fa-check"></i> verif</th>
+                    <th><i class=" fa fa-edit"></i> Editer</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?PHP
-foreach($listePromotions as $row){
-  ?>
-  <tr>
-  <td><?PHP echo $row['id_promo']; ?></td>
-  <td><?PHP echo $row['solde']; ?></td>
-  <td><?PHP echo $row['datedebut']; ?></td>
-  <td><?PHP echo $row['datefin']; ?></td>
-  <td><?PHP echo $row['nomproduit']; ?></td>
+                
+                <?php while ($m=$ALL->fetch()) { ?>
+                  
+                  <tr>
+                 
+                    <td><?php echo $m['IDmembre']; $_SESSION['IDmembre']=$m['IDmembre']; ?></td>
+                    <td class="hidden-phone"><?php echo $m['nom'] ?></td>
+                    <td><?php echo $m['email'] ?></td>
+                    <td><?php echo $m['tele'] ?></td>
+                    <td> <?php echo $m['pass'] ?></td>
+                    
+                    <td>
+                    <?php if ($m['verif']==0): ?>
+                    <span class="label label-warning"><i class="fa fa-times"></i></span>
+                    <?php endif; ?>
+                    <?php if ($m['verif']==1): ?>
+                    <span class="label label-success"><i class="fa fa-check"></i></span>
+                    <?php endif; ?>
+                    </td>
+                      
+                    <td>
+                      <button class="btn btn-danger btn-xs" name="supprimer" onclick="window.location.href='basic_table.php?supprimer=<?php echo $m['IDmembre']?>'">                      
+                      <i class="fa fa-trash-o "></i></button>
+                    </td>
+                  </tr>
+                  
+                  <?php } ?>
+                  
+                  </table>
 
+                      <!-- ------------------------------------------------------------------------- -->
+                      <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> Information pour livraison</h4>
               
-            
-            
-           
-            <td>
-              <form method="POST" action="supprimerpromotion.php">
-  <input type="submit" class="btn btn-theme04" name="supprimer" value="supprimer">
-    <input type="hidden" value="<?PHP echo $row['id_promo']; ?>" name="id">
+                <hr>
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-user"></i>ID</th>
+                    <th ><i class="fa fa-address-book-o"></i> gouvernorat</th>
+                    <th><i class="fa fa-at"></i> adresse</th>
+                    <th><i class="fa fa-phone"></i> code postal</th>
+                    <th>Map</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                <?php
+                if ($bar==1){
+                $j=0;
+                while ($j<count($ALL1))
+                {
+                while ($m1=$ALL1[$j]->fetch()) { 
+                  
+                  ?>
+                  
+                  <tr>
+                  <td><?php echo $m1['IDmembre'];?></td>
+                     <td><?php echo $m1['ville'] ?></td>
+                    <td><?php echo $m1['adresse'] ?></td>
+                    <td> <?php echo $m1['codeP'] ?></td>
+                  
+                      
+                    <td>
 
-  </form>
-            </td>
-            <td>
-               <form method="POST" action="modifierPromotion.php">
-  <input type="submit" class="btn btn-theme03" name="modifier" value="modifier">
-  
-  </form>
+                      <button class="btn btn-primary btn-x"  onclick="window.location.href='<?php echo $m1['localisation']; ?>'" ><i class="fa fa-map-marker"></i></button>
+                    </td>
+                  </tr>
+                  
+                  <?php }
+                  $j++; 
+                        }   
+                      }
 
-                        </td>
+                      else if ($bar==2)
+                      {
+                        while ($m1=$ALL1->fetch()) { ?>
+                  
+                          <tr>
+                          <td><?php echo $m1['IDmembre'];?></td>
+                             <td><?php echo $m1['ville'] ?></td>
+                            <td><?php echo $m1['adresse'] ?></td>
+                            <td> <?php echo $m1['codeP'] ?></td>
+                            <td>
 
-                                    
-  
-  <?PHP
-}
-?>
-               
-                </tbody>
-              </table>
-            </div>
-            <!-- /content-panel -->
-          </div>
-          <!-- /col-md-12 -->
-        </div>
+                      <button class="btn btn-primary btn-x"  onclick="window.location.href='<?php echo $m1['localisation'];?>'" ><i class="fa fa-map-marker"></i></button>
+                    </td>
+                              
+                           
+                          </tr>
+                          
+                          <?php } ?>
+                          <?php
+
+                      }
+
+                      else if ($bar==0) {
+                        while ($m1=$ALL1->fetch()) { ?>
+                  
+                          <tr>
+                          <td><?php echo $m1['IDmembre'];?></td>
+                             <td><?php echo $m1['ville'] ?></td>
+                            <td><?php echo $m1['adresse'] ?></td>
+                            <td> <?php echo $m1['codeP'] ?></td>
+                            <td>
+
+                      <button class="btn btn-primary btn-x"  onclick="window.location.href='<?php echo $m1['localisation'];?>'" ><i class="fa fa-map-marker"></i></button>
+                    </td>
+                              
+                           
+                          </tr>
+                          
+                          <?php } ?>
+                          <?php
+                      }
+                     ?>
+                  
+                  </table>
+
+                <?php if ($bar==0){?>
+                  <div style="padding-left:500px; color=blue;">  
+                    <?php for ($i=1;$i<=$pageTotales;$i++){
+                        if ($i==$pageCourante)
+                        {
+                          echo $i." ";
+                        }
+                        else{
+                          echo '<a href="basic_table.php?page='.$i.'">'.$i.'</a> ';
+                        }
+                      } ?>
+                      </div>
+                    <?php } ?>
+
+
+                 
+        <!-- row -->
+        
         <!-- /row -->
       </section>
+        <form action="basic_table.php" method="POST">
+                      
+          
+        
+        
+        </form>
     </section>
+
     <!-- /MAIN CONTENT -->
     <!--main content end-->
     <!--footer start-->
     <footer class="site-footer">
       <div class="text-center">
         <p>
-          &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
+          Un compte dont la marque (x) est attribué n'est pas encore verifier par email
         </p>
         <div class="credits">
           <!--
@@ -377,7 +700,7 @@ foreach($listePromotions as $row){
             Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
             Licensing information: https://templatemag.com/license/
           -->
-          Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
+          
         </div>
         <a href="basic_table.html#" class="go-top">
           <i class="fa fa-angle-up"></i>

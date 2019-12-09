@@ -1,5 +1,5 @@
 <?php 
-include '../config/config.php';
+include '../config.php';
 session_start();
 
 
@@ -51,6 +51,12 @@ session_start();
 }
 .msgCNX:hover{
 color:green;
+
+#loginIcone{
+	padding-left:600px;
+}
+
+
 }
 </style>
 </head>
@@ -64,14 +70,23 @@ color:green;
 			<div class="top-bar">
 				<div class="content-topbar flex-sb-m h-full container">
 					<div class="left-top-bar">
-						<a  href="connexion.php" class="Connexion" style=" font-size: 16px; font-weight: bold; color: white; text-decoration: none;" >se connecter </a>
+						
+					<?php    if (!(isset($_SESSION['email']))): ?>	
+					<a  href="connexion.php" class="Connexion" id="CNX" style=" font-size: 16px; font-weight: bold; color: white; text-decoration: none;" >se connecter</a>
 						
 						<a href="sign.php" class="inscription" style="padding-left: 30px; font-weight: bold; color: white; text-decoration: none; 
-                        font-size: 16px;">S'inscrire</a>
+                        font-size: 16px;">S'inscrire </a>
+					<?php  endif;?>
 
-                        <?php if (isset($_GET['nom']) && $_GET['nom']!=""):  ?>
-                       <a class="msgCNX" href="#">Bienvenue chez nous  <?php  echo $_SESSION['nom']  ?> </a>
-                        <?php  endif;?>
+
+						<?php if (isset($_SESSION['email'])): ?>
+                       <a class="logout" href="deconnexion.php" style="padding-left:1020px; color:white; font-size:16px;">Deconnexion | </a>
+						
+						
+						<a class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart" style="padding-left:4px; color:white; s " href="profile.php">																								
+								<i class="fa fa-user" ></i>
+						</a>
+						<?php  endif;?>
                        
 					</div>
 
@@ -123,13 +138,7 @@ color:green;
 						</div>
 
 
-						<div class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11  js-show-cart">
-								<i class="fa fa-user" ></i>
-						</div>
-
-						<a href="#" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-							<i class="zmdi zmdi-favorite-outline"></i>
-						</a>
+						
                     </div>
                     
 				</nav>

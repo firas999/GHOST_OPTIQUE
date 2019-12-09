@@ -1,29 +1,43 @@
 <?php 
-session_start();
+  session_start();
+
+include "../core/compteC.php";
+include "../entities/Compte.php";
 $erreurs="";
-include "../config/config.php";
 if (isset($_POST['connecter'])){
+    $compteXC=new compteC();
     $emailCNX=$_POST['emailCNX'];
     $passCNX=$_POST['passCNX'];
     if (!empty($emailCNX) && !empty($passCNX))
     {
-        $stmt=$bdd->prepare("SELECT * FROM  membre WHERE email = ? AND pass = ? ");
-        $stmt->execute([$emailCNX,$passCNX]);
+       $stmt=$compteXC->connexion($emailCNX,$passCNX);
         $validerCNX=$stmt->rowCount();
 
         if ($validerCNX== 1)
         {
+          
             $USER_INFO = $stmt->fetch();
+            $_SESSION['IDmembre']=$USER_INFO['IDmembre'];
             $_SESSION['nom']=$USER_INFO['nom'];
             $_SESSION['email']=$USER_INFO['email'];
+            $_SESSION['tele']=$USER_INFO['tele'];
             $_SESSION['pass']=$USER_INFO['pass'];
-            header('location:index.php?nom='.$_SESSION['nom']);
+            // $_SESSION['verif']=$USER_INFO['verif'];
+            
+            
+            header('location:index.php?id='.$_SESSION['IDmembre']);
         }
         else {
             $erreurs="Verifier votre email ou  votre mot de passe";
+
         }
     }
     
+}
+
+if (isset($_POST['MDP_oublie']))
+{
+    header("location:recuperer.php");
 }
 
 ?>
@@ -37,6 +51,31 @@ if (isset($_POST['connecter'])){
     <link rel="stylesheet" href="css/connexion.css">
     <link rel="stylesheet" href="css/bootstrap.min">
 </head>
+
+<style>
+.inscrivezVous{
+    color:white;
+    margin: 20px 27px;
+ }
+
+.inscrivezVous:hover{
+    color:#60adde;
+    text-decoration:none;
+}
+
+.MDP_oublie
+{
+    color:white;
+    margin: 20px 60px 50px;
+}
+
+.MDP_oublie:hover{
+    color:#60adde;
+    text-decoration:none;
+}
+
+
+</style>
 <body>
 <nav class="navigation">
     <a href="index.php"><< Revenir vers le site </a>
@@ -54,8 +93,10 @@ if (isset($_POST['connecter'])){
             <li><?php echo $erreurs;?></li>
         </div>
         <?php endif; ?>
-    <input type="submit" value="Se connecter" name="connecter" >
-
+        
+        <a href="recuperer.php" class="MDP_oublie">Mot de pass oublié?</a>    
+        <input type="submit" value="Se connecter" name="connecter" >
+    <a href="sign.php" class="inscrivezVous">Pas de compte? inscrivez-vous</a>
 
     </form>
     </div>
