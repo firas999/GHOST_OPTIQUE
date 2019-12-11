@@ -1,63 +1,3 @@
-<?php
-include "../core/compteC.php";
-include "../entities/Compte.php";
-session_start();
-$CompteXC=new compteC();
-$bar=0;
-$CompteParPage = 4;
-$CompteTotalBDD = $CompteXC->NBcompte();
-$CompteTotal=$CompteTotalBDD->rowCount();
-$pageTotales=ceil($CompteTotal/$CompteParPage);
-if (isset($_GET['page']) && !empty(isset($_GET['page'])) && $_GET['page'] >0 ){
-  $_GET['page']=intval($_GET['page']);
-  $pageCourante=$_GET['page'];
-}
-else {
-  $pageCourante=1;
-}
-
-$depart= ($pageCourante-1)*$CompteParPage;
-if (isset($_GET['supprimer']) AND !empty($_GET['supprimer']))
-{
-  $supprimer= (int) $_GET['supprimer'];
- $CompteXC->supprimerCompte($supprimer);
- header('location:basic_table.php');
- 
-}
-
-// if (isset($_POST['search']) AND !empty($_POST['search'])  AND isset($_POST['IDsearch']) AND !empty($_POST['IDsearch']))
-// {
-//   $bar=5;
-//   $membreSRCH= $_POST['IDsearch'];
-//   $ALL=$CompteXC->INNER_Join_AFFICHAGE($membreSRCH);
-// }                                  
-
-else if (isset($_POST['ancien'])){
-  $bar=0;
-  $ALL=$CompteXC-> AfficherAncien($depart,$CompteParPage);
-}
-
-else if (isset($_POST['recent'])){
-  $bar=0;
-  $ALL=$CompteXC->AfficherRecent($depart,$CompteParPage);
-}
-else if (isset($_POST['NonActif'])){
-  $bar=5;
-  $ALL=$CompteXC->AfficherNonActif();
-
-}
-else if (isset($_POST['Actif'])){
-  $bar=5;
-  $ALL=$CompteXC->AfficherActif();
-
-
-}
-
-else{
-  $bar=0;
-$ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,11 +17,11 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
   <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!--external css-->
   <link href="lib/font-awesome/css/font-awesome.css" rel="stylesheet" />
+  <link href="lib/dropzone/css/dropzone.css" rel="stylesheet" />
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
   <link href="css/style-responsive.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/dash.css">
-  <script src="Recherche.js"></script>
+
   <!-- =======================================================
     Template Name: Dashio
     Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -235,8 +175,7 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
                   </a>
               </li>
               <li>
-                <a href="index.html#">See all messages
-                  </a>
+                <a href="index.html#">See all messages</a>
               </li>
             </ul>
           </li>
@@ -254,25 +193,29 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
               </li>
               <li>
                 <a href="index.html#">
-                  <span class="label label-danger"><i class="fa fa-bolt"></i></span> Server Overloaded.
+                  <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                  Server Overloaded.
                   <span class="small italic">4 mins.</span>
                   </a>
               </li>
               <li>
                 <a href="index.html#">
-                  <span class="label label-warning"><i class="fa fa-bell"></i></span> Memory #2 Not Responding.
+                  <span class="label label-warning"><i class="fa fa-bell"></i></span>
+                  Memory #2 Not Responding.
                   <span class="small italic">30 mins.</span>
                   </a>
               </li>
               <li>
                 <a href="index.html#">
-                  <span class="label label-danger"><i class="fa fa-bolt"></i></span> Disk Space Reached 85%.
+                  <span class="label label-danger"><i class="fa fa-bolt"></i></span>
+                  Disk Space Reached 85%.
                   <span class="small italic">2 hrs.</span>
                   </a>
               </li>
               <li>
                 <a href="index.html#">
-                  <span class="label label-success"><i class="fa fa-plus"></i></span> New User Registered.
+                  <span class="label label-success"><i class="fa fa-plus"></i></span>
+                  New User Registered.
                   <span class="small italic">3 hrs.</span>
                   </a>
               </li>
@@ -287,9 +230,7 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li>
-            <a class="logout" href="login.html">Logout</a>
-          </li>
+          <li><a class="logout" href="login.html">Logout</a></li>
         </ul>
       </div>
     </header>
@@ -356,8 +297,8 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
               <span>Promotion</span>
               </a>
             <ul class="sub">
-              <li><a href="list-off-promotion.php"> liste of promotion</a></li>
-              
+              <li><a href="list-off-promotion.php">liste of promotion</a></li>
+             
             </ul>
           </li>
           <li class="sub-menu">
@@ -391,11 +332,11 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-comments-o"></i>
-              <span>Chat Room</span>
+              <span>SAV</span>
               </a>
             <ul class="sub">
-              <li><a href="lobby.html">Lobby</a></li>
-              <li><a href="chat_room.html"> Chat Room</a></li>
+              <li><a href="livreur.php">Livraisaon</a></li>
+              <li><a href="responsive_table.php"> Livreur</a></li>
             </ul>
           </li>
           <li>
@@ -413,146 +354,17 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
         MAIN CONTENT
         *********************************************************************************************************************************************************** -->
     <!--main content start-->
-    <section id="main-content">
-      <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Client</h3>
-
-        <div class="row mt">
-          
-          <div class="col-md-12">
-            <div class="content-panel">
-              
-              <table class="table table-striped table-advance table-hover" id="myTable">
-                
-                <header class="panel-heading wht-bg">
-                <h4 class="gen-case">
-                    Rechercher par :
-                    <form action="basic_table.php" class="pull-right mail-src-position" method="POST">
-                      <div class="input-append">
-                        <!-- firas -->
-                        
-                        <input type="search" class="form-control-sm"  style="width:600px;" onkeyup="myFunction()" placeholder="id,email,nom,telephone..." name="IDsearch" id="myInput">   
-                       
-                                  <br><br><br>
-                                  Ou Trier par :
-                                  <br> <br>
-                        <input type="submit" name="recent" value="Les plus recents" class="tri"> |
-                <input type="submit" name="ancien" value="Les plus anciens" class="tri2"> |
-                <input type="submit" name="NonActif" value="Compte non actifs" class="tri2"> |
-                <input type="submit" name="Actif" value="Compte actifs" class="tri2">
-                      </div>
-                      
-                    </form>
-                  </h4>
-              </header>
-                <hr>
-                <thead>
-                <h4><i class="fa fa-angle-right"></i> Compte clients</h4>
-                
-                  <tr>
-                    <th><i class="fa fa-user"></i>ID</th>
-                    <th ><i class="fa fa-address-book-o"></i> Nom</th>
-                    <th><i class="fa fa-at"></i> Email</th>
-                    <th><i class="fa fa-phone"></i> telephone</th>
-                    <th><i class="fa fa-key"></i> Ville</th>
-                    <th><i class="fa fa-key"></i> adresse</th>
-                    <th><i class="fa fa-key"></i> code postal</th>
-                    <th><i class=" fa fa-check"></i> verif</th>
-                    <th><i class=" fa fa-edit"></i> Editer</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                
-                <?php while ($m=$ALL->fetch()) { ?>
-                  
-                  <tr>
-                 
-                    <td><?php echo $m['IDmembre']; $_SESSION['IDmembre']=$m['IDmembre']; ?></td>
-                    <td class="hidden-phone"><?php echo $m['nom'] ?></td>
-                    <td><?php echo $m['email'] ?></td>
-                    <td><?php echo $m['tele'] ?></td>
-                    <td><?php echo $m['ville'] ?></td>
-                    <td><?php echo $m['adresse'] ?></td>
-                    <td> <?php echo $m['codeP'] ?></td>
-                 
-                    
-                    <td>
-                    <?php if ($m['verif']==0): ?>
-                    <span class="label label-warning"><i class="fa fa-times"></i></span>
-                    
-                    <?php endif; ?>
-                    <?php if ($m['verif']==1): ?>
-                    <span class="label label-success"><i class="fa fa-check"></i></span>
-                    <?php endif; ?>
-                    </td>
-                      
-                    <td>
-                      <button class="btn btn-danger btn-xs" name="supprimer" onclick="window.location.href='basic_table.php?supprimer=<?php echo $m['IDmembre']?>'">                      
-                      <i class="fa fa-trash-o "></i></button>
-                      <span><button class="btn btn-primary btn-xs"  onclick="window.location.href='<?php echo $m['localisation']; ?>'" ><i class="fa fa-map-marker"></i></button></span>
-                    </td>
-                  </tr>
-                  
-                  <?php } ?>
-                  
-                  </table>
-
-                      <!-- ------------------------------------------------------------------------- -->
-                      
-
-                <?php if ($bar==0){?>
-                  <div style="padding-left:500px; color=blue;">  
-                    <?php for ($i=1;$i<=$pageTotales;$i++){
-                        if ($i==$pageCourante)
-                        {
-                          echo $i." ";
-                        }
-                        else{
-                          echo '<a href="basic_table.php?page='.$i.'">'.$i.'</a> ';
-                        }
-                      } ?>
-                      </div>
-                    <?php } ?>
-
-
-                 
-        <!-- row -->
+ 
+      <section class="wrapper site-min-height">
+       
+     
+ 
         
-        <!-- /row -->
-      </section>
-        <form action="basic_table.php" method="POST">
-                      
-          
+  
+ 
+      
         
-        
-        </form>
-    </section>
-
-    <!-- /MAIN CONTENT -->
-    <!--main content end-->
-    <!--footer start-->
-    <footer class="site-footer">
-      <div class="text-center">
-        <p>
-          Un compte dont la marque (x) est attribué n'est pas encore verifier par email
-        </p>
-        <div class="credits">
-          <!--
-            You are NOT allowed to delete the credit link to TemplateMag with free version.
-            You can delete the credit link only if you bought the pro version.
-            Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
-            Licensing information: https://templatemag.com/license/
-          -->
-          
-        </div>
-        <a href="basic_table.html#" class="go-top">
-          <i class="fa fa-angle-up"></i>
-          </a>
-      </div>
-    </footer>
-    <!--footer end-->
-  </section>
+  
   <!-- js placed at the end of the document so the pages load faster -->
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
@@ -562,7 +374,191 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
-  
+  <script src="lib/dropzone/dropzone.js"></script>
+
 </body>
 
+</html>
+
+<?php
+
+if(isset($_POST['search']))
+{
+    $valueToSearch = $_POST['valueToSearch'];
+    // search in all table columns
+    // using concat mysql function
+    $query = "SELECT * FROM `categories` WHERE CONCAT(id, marque, noncategorie) LIKE '%".$valueToSearch."%'";
+    $search_result = filterTable($query);
+
+}
+ else {
+    $query = "SELECT * FROM `categories` where id ='*' ";
+    $search_result = filterTable($query);
+}
+
+// function to connect and execute the query
+function filterTable($query)
+{
+    $connect = mysqli_connect("localhost", "root", "", "ghostoptique");
+    $filter_Result = mysqli_query($connect, $query);
+    return $filter_Result;
+}
+
+?>
+
+  <body>
+
+        <form action="categorie.php" method="post" style="margin-left:18%;">
+		  <div class="input-group">
+
+            <input type="text" name="valueToSearch" placeholder="valeur a rechercher"><br><br>
+            <button type="submit" name="search" class="btn">search</button>
+
+              </div>
+            <table>
+                <tr>
+                    <th>id</th>
+                    <th>marque</th>
+                    <th>noncategorie</th>
+
+                </tr>
+
+      <!-- populate table from mysql database -->
+                <?php while($row = mysqli_fetch_array($search_result)):?>
+                <tr>
+                    <td><?php echo $row['id'];?></td>
+                    <td><?php echo $row['marque'];?></td>
+                    <td><?php echo $row['noncategorie'];?></td>
+
+                </tr>
+                <?php endwhile;?>
+
+
+
+
+
+            </table>
+        </form>
+
+<!DOCTYPE html>
+<?php
+include ('modifierCategories.php');
+require_once"../core/CategoriesC.php";
+//create instance of our employeC class
+$ec=new CategoriesC();
+//get data
+$liste=$ec->afficheP();
+//<input type="hidden" name="id" value="<?php echo $id;!>">
+
+?>
+
+
+
+<html>
+<head>
+
+    <title> CRUD Categories </title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+
+</head>
+<body>
+    <?php if (isset($_SESSION['msg'])):?>
+        <div class="msg">
+            <?php
+                echo $_SESSION['msg'];
+                unset( $_SESSION['msg']);
+            ?>
+
+        </div>
+    <?php endif?>
+<div id="global">
+     <!-- <form method="post" action="ajoutCategories.php">-->
+
+
+
+
+        <form method="post" style="margin-left:18%;" <?php if ($edit_state == false): ?>action="ajoutCategories.php" <?php else :?> action="modifierCategories.php" <?php  endif?>>
+
+            <div class="input-group">
+                <label>id</label>
+                <input type="text" name="id" required pattern="[0-9]{3,15}" <?php if ($edit_state == true): ?> value="<?php echo $id;?>" <?php endif?> >
+            </div>
+            <div class="input-group">
+                <label>marque</label>
+                <input type="text" name="marque" required  pattern="[a-zA-Z]{3,15}$" <?php if ($edit_state == true): ?> value="<?php echo $marque;?>" <?php endif?>>
+            </div>
+            <div class="input-group">
+                <label>noncategorie</label>
+                <input type="text" name="noncategorie" required pattern="[a-zA-Z]{3,15}$" <?php if ($edit_state == true): ?> value="<?php echo $noncategorie;?>" <?php endif?>>
+                       </div>
+            <div class="input-group">
+                 <?php if ($edit_state == false)  :?>
+
+                     <button type="submit" name="save" class="btn" >Save</button>
+
+                    <?php else :?>
+
+                <button type="submit" name="update" class="btn">Update</button>
+                    <?php endif?>
+
+
+
+
+            </div>
+
+        </form>
+
+
+
+
+        <table 	style="margin-left:18%;">
+                <thead>
+                    <tr>
+				
+                        <th>id</th>
+                        <th>marque</th>
+                        <th>noncategorie</th>
+                        <th colspan="2"> Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+				    <?php while($row = mysqli_fetch_array($search_result)):?>
+                <tr>
+                    <td><?php echo $row['id'];?></td>
+                    <td><?php echo $row['marque'];?></td>
+                    <td><?php echo $row['noncategorie'];?></td>
+
+                </tr>
+                <?php endwhile;?>
+
+
+
+
+                <?php
+                foreach ($liste as $value){ echo'<tr><td>'.$value['id'].'</td><td>'.$value['marque']. '</td><td>'.$value['noncategorie'].'</td>';?>
+                        <td>
+                            <a class="edit_btn" href="categorie.php?edit=<?php echo $value['id'];?>">Edit</a>
+                        </td>
+                        <td>
+
+                            <a class="del_btn" onclick="return confirm('do you want TO Delete !!')"  href="supprimerCategories.php?del=<?PHP echo $value['id'];?>">Delete</a>
+
+                        </td>
+
+                    </tr>
+
+
+                <?php
+				}
+                ?>
+
+
+
+                </tbody>
+        </table>
+</div>
+
+</body>
 </html>

@@ -1,14 +1,13 @@
 <?php
+session_start();
 
 include "../core/produitC.php";
 //include  "../config1.php";
 
 //include ".///config.php";
 
-if(isset($_GET['id']) && !empty($_GET['id'])){
-  
-  $product_id =  $_GET['id'];
-
+if(isset($_POST['id']) && !empty($_POST['id'])){
+  $product_id =  $_POST['id'];
 }
 
 
@@ -274,34 +273,109 @@ $produit = $produitC1->getProduitById($product_id);
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="profile.html"><img src="img/yassmine.jpg" class="img-circle" width="80"></a></p>
-          <h5 class="centered">Yasmine Haffar</h5>
+          <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+          <h5 class="centered">Sam Soffes</h5>
           <li class="mt">
             <a href="index.html">
               <i class="fa fa-dashboard"></i>
               <span>Dashboard</span>
               </a>
           </li>
-        
-         
-       
-          <li class="sub-menu">
-            <a class="active" href="javascript:;">
-              <i class="fa fa-tasks"></i>
-              <span>PROMOTION</span>
+          <!-- <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-desktop"></i>
+              <span>UI Elements</span>
               </a>
             <ul class="sub">
-              <li class="active"><a href="ajoutetmodifier.html">AJOUT PROMOTION</a></li>
- <li class="active">
-                <a href="list-off-promotion.php"> Liste de promotions </a>
-              </li>
-                            <li><a href="contactform.html">Contact Form</a></li>
+              <li><a href="general.html">General</a></li>
+              <li><a href="buttons.html">Buttons</a></li>
+              <li><a href="panels.html">Panels</a></li>
+              <li><a href="font_awesome.html">Font Awesome</a></li>
+            </ul>
+          </li> -->
+          <li class="sub-menu">
+            <a class="active" href="javascript:;">
+              <i class="fa fa-cogs"></i>
+              <span>Produits</span>
+              </a>
+            <ul class="sub">
+             
+              <li><a href="categorie.php">Categorie</a></li>
+              <li class="active"><a href="index.php"> Produit</a></li>
+               </ul>
+          </li>
+          <!-- <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>Extra Pages</span>
+              </a>
+            <ul class="sub">
+              <li><a href="blank.html">Blank Page</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="lock_screen.html">Lock Screen</a></li>
+              <li><a href="profile.html">Profile</a></li>
+              <li><a href="invoice.html">Invoice</a></li>
+              <li><a href="pricing_table.html">Pricing Table</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="404.html">404 Error</a></li>
+              <li><a href="500.html">500 Error</a></li>
+            </ul>
+          </li> -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-tasks"></i>
+              <span>Promotion</span>
+              </a>
+            <ul class="sub">
+              <li><a href="list-off-promotion.php">liste of promotion</a></li>
+             
             </ul>
           </li>
-        
-       
-         
-         
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-th"></i>
+              <span>Comptes</span>
+              </a>
+            <ul class="sub">
+              <li><a href="basic_table.php">Clients</a></li>
+            </ul>
+          </li>
+          <!-- <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Mail </span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li> -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class=" fa fa-bar-chart-o"></i>
+              <span>statistiques</span>
+              </a>
+            <ul class="sub">
+              <li><a href="affichage.php">affichage</a></li>
+              <li><a href="statistique_stock22.php">stock</a></li>
+              <li><a href="stat_profits.php">profits</a></li>
+              <li><a href="ajoutStat.html">ajouter</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-comments-o"></i>
+              <span>Chat Room</span>
+              </a>
+            <ul class="sub">
+              <li><a href="lobby.html">Lobby</a></li>
+              <li><a href="chat_room.html"> Chat Room</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="google_maps.html">
+              <i class="fa fa-map-marker"></i>
+              <span>Google Maps </span>
+              </a>
+          </li>
+        </ul>
         <!-- sidebar menu end-->
       </div>
     </aside>
@@ -340,36 +414,29 @@ $produit = $produitC1->getProduitById($product_id);
                                       ?> DT
                                     </div>
                                   </div>
-                <div class="form-group">
-                  <label class="control-label col-md-3">DATE DEBUT</label>
+
+                    <div class="form-group">
+                  <label class="control-label col-md-3"> Date Début</label>
                   <div class="col-md-3 col-xs-11">
-                    <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="01-01-2014" class="input-append date dpYears">
-                      <input name="dated" type="text" readonly="" value="01-01-2014" size="16" class="form-control" />
-                      <span class="input-group-btn add-on">
-                        <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
-                        </span>
-                    </div>
-                    <span class="help-block">Select date</span>
+                     <input type="date" name="dated" required="" min="1998-12-12" id="datefield"> 
+                                         <span class="help-block">Select date</span>
+
                   </div>
                 </div>
-                 <div class="form-group">
-                  <label class="control-label col-md-3">DATE FIN</label>
+               
+                  <div class="form-group">
+                  <label class="control-label col-md-3"> Date Début</label>
                   <div class="col-md-3 col-xs-11">
-                    <div data-date-viewmode="years" data-date-format="dd-mm-yyyy" data-date="01-01-2014" class="input-append date dpYears">
-                      <input name="datef" type="text" readonly="" value="01-01-2014" size="16" class="form-control" >
-                      <span class="input-group-btn add-on">
-                        <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
-                        </span>
-                    </div>
-                    <span class="help-block">Select date</span>
-                     
+                     <input type="date" name="datef" required="" min="1998-12-12" id="datefield2"> 
+                                         <span class="help-block">Select date</span>
+
                   </div>
                 </div>
                
                      <div class="form-group">
                   <label class="control-label col-md-3">Nouveau prix</label>
                   <div class="col-md-3 col-xs-11">
-                    <input  name="solde" size="20" type="text" value="" minlength="3" required>
+                    <input  name="solde" size="20" type="text" value="" max="90" required>
                   </div>
                 </div>
                
@@ -433,6 +500,34 @@ $produit = $produitC1->getProduitById($product_id);
   <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
   <script src="lib/advanced-form-components.js"></script>
+  
+/<script type="text/javascript"> 
+    var today=new Date();
+    var dd=today.getDate()+1;
+        var dd2=today.getDate()+2;
+
+    var mm=today.getMonth ()+1; 
+    var yyyy=today.getFullYear () ;
+    if ( dd<10) { dd='0'+dd
+    } 
+if (mm<10){ mm='0'+mm 
+} 
+today =yyyy+'-'+mm+'-'+dd ; 
+
+if (mm<10){ mm='0'+mm 
+} 
+
+ if ( dd2<10) { dd2='0'+dd2
+    }
+today2 =yyyy+'-'+mm+'-'+dd2 ; 
+
+document.getElementById("datefield").setAttribute("min",today);
+    document.getElementById("datefield2").setAttribute("min",today2);
+
+
+
+     
+</script>
 
 </body>
 

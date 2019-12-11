@@ -1,5 +1,6 @@
 <?PHP
-include "../core/promotionC.php";
+include "../core/produitC.php";
+
 $promotionC=new PromotionC();
 if (isset($_POST["id"])){
     $promotionC->supprimerPromotion($_POST["id"]);

@@ -1,62 +1,9 @@
-<?php
-include "../core/compteC.php";
-include "../entities/Compte.php";
-session_start();
-$CompteXC=new compteC();
-$bar=0;
-$CompteParPage = 4;
-$CompteTotalBDD = $CompteXC->NBcompte();
-$CompteTotal=$CompteTotalBDD->rowCount();
-$pageTotales=ceil($CompteTotal/$CompteParPage);
-if (isset($_GET['page']) && !empty(isset($_GET['page'])) && $_GET['page'] >0 ){
-  $_GET['page']=intval($_GET['page']);
-  $pageCourante=$_GET['page'];
-}
-else {
-  $pageCourante=1;
-}
-
-$depart= ($pageCourante-1)*$CompteParPage;
-if (isset($_GET['supprimer']) AND !empty($_GET['supprimer']))
-{
-  $supprimer= (int) $_GET['supprimer'];
- $CompteXC->supprimerCompte($supprimer);
- header('location:basic_table.php');
- 
-}
-
-// if (isset($_POST['search']) AND !empty($_POST['search'])  AND isset($_POST['IDsearch']) AND !empty($_POST['IDsearch']))
-// {
-//   $bar=5;
-//   $membreSRCH= $_POST['IDsearch'];
-//   $ALL=$CompteXC->INNER_Join_AFFICHAGE($membreSRCH);
-// }                                  
-
-else if (isset($_POST['ancien'])){
-  $bar=0;
-  $ALL=$CompteXC-> AfficherAncien($depart,$CompteParPage);
-}
-
-else if (isset($_POST['recent'])){
-  $bar=0;
-  $ALL=$CompteXC->AfficherRecent($depart,$CompteParPage);
-}
-else if (isset($_POST['NonActif'])){
-  $bar=5;
-  $ALL=$CompteXC->AfficherNonActif();
-
-}
-else if (isset($_POST['Actif'])){
-  $bar=5;
-  $ALL=$CompteXC->AfficherActif();
+<?Php
+require "../config.php";
+require "../config2.php";
 
 
-}
-
-else{
-  $bar=0;
-$ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
-}
+    $query = $db->query("SELECT * FROM like_table ");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +15,11 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
   <meta name="author" content="Dashboard">
   <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
   <title>Dashio - Bootstrap Admin Template</title>
-
+      <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap.min.css">
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap.min.js"></script>
   <!-- Favicons -->
   <link href="img/favicon.png" rel="icon">
   <link href="img/apple-touch-icon.png" rel="apple-touch-icon">
@@ -80,8 +31,7 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
   <!-- Custom styles for this template -->
   <link href="css/style.css" rel="stylesheet">
   <link href="css/style-responsive.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/dash.css">
-  <script src="Recherche.js"></script>
+  <link rel="stylesheet" href="style.css">
   <!-- =======================================================
     Template Name: Dashio
     Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
@@ -356,8 +306,8 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
               <span>Promotion</span>
               </a>
             <ul class="sub">
-              <li><a href="list-off-promotion.php"> liste of promotion</a></li>
-              
+              <li><a href="#">promotion</a></li>
+              <li><a href="#">promotion</a></li>
             </ul>
           </li>
           <li class="sub-menu">
@@ -415,127 +365,63 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
     <!--main content start-->
     <section id="main-content">
       <section class="wrapper">
-        <h3><i class="fa fa-angle-right"></i> Client</h3>
+        <h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
 
-        <div class="row mt">
-          
-          <div class="col-md-12">
-            <div class="content-panel">
-              
-              <table class="table table-striped table-advance table-hover" id="myTable">
-                
-                <header class="panel-heading wht-bg">
-                <h4 class="gen-case">
-                    Rechercher par :
-                    <form action="basic_table.php" class="pull-right mail-src-position" method="POST">
-                      <div class="input-append">
-                        <!-- firas -->
-                        
-                        <input type="search" class="form-control-sm"  style="width:600px;" onkeyup="myFunction()" placeholder="id,email,nom,telephone..." name="IDsearch" id="myInput">   
-                       
-                                  <br><br><br>
-                                  Ou Trier par :
-                                  <br> <br>
-                        <input type="submit" name="recent" value="Les plus recents" class="tri"> |
-                <input type="submit" name="ancien" value="Les plus anciens" class="tri2"> |
-                <input type="submit" name="NonActif" value="Compte non actifs" class="tri2"> |
-                <input type="submit" name="Actif" value="Compte actifs" class="tri2">
-                      </div>
-                      
-                    </form>
-                  </h4>
-              </header>
-                <hr>
-                <thead>
-                <h4><i class="fa fa-angle-right"></i> Compte clients</h4>
-                
-                  <tr>
-                    <th><i class="fa fa-user"></i>ID</th>
-                    <th ><i class="fa fa-address-book-o"></i> Nom</th>
-                    <th><i class="fa fa-at"></i> Email</th>
-                    <th><i class="fa fa-phone"></i> telephone</th>
-                    <th><i class="fa fa-key"></i> Ville</th>
-                    <th><i class="fa fa-key"></i> adresse</th>
-                    <th><i class="fa fa-key"></i> code postal</th>
-                    <th><i class=" fa fa-check"></i> verif</th>
-                    <th><i class=" fa fa-edit"></i> Editer</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                
-                <?php while ($m=$ALL->fetch()) { ?>
-                  
-                  <tr>
-                 
-                    <td><?php echo $m['IDmembre']; $_SESSION['IDmembre']=$m['IDmembre']; ?></td>
-                    <td class="hidden-phone"><?php echo $m['nom'] ?></td>
-                    <td><?php echo $m['email'] ?></td>
-                    <td><?php echo $m['tele'] ?></td>
-                    <td><?php echo $m['ville'] ?></td>
-                    <td><?php echo $m['adresse'] ?></td>
-                    <td> <?php echo $m['codeP'] ?></td>
-                 
-                    
-                    <td>
-                    <?php if ($m['verif']==0): ?>
-                    <span class="label label-warning"><i class="fa fa-times"></i></span>
-                    
-                    <?php endif; ?>
-                    <?php if ($m['verif']==1): ?>
-                    <span class="label label-success"><i class="fa fa-check"></i></span>
-                    <?php endif; ?>
-                    </td>
-                      
-                    <td>
-                      <button class="btn btn-danger btn-xs" name="supprimer" onclick="window.location.href='basic_table.php?supprimer=<?php echo $m['IDmembre']?>'">                      
-                      <i class="fa fa-trash-o "></i></button>
-                      <span><button class="btn btn-primary btn-xs"  onclick="window.location.href='<?php echo $m['localisation']; ?>'" ><i class="fa fa-map-marker"></i></button></span>
-                    </td>
-                  </tr>
-                  
-                  <?php } ?>
-                  
-                  </table>
-
-                      <!-- ------------------------------------------------------------------------- -->
-                      
-
-                <?php if ($bar==0){?>
-                  <div style="padding-left:500px; color=blue;">  
-                    <?php for ($i=1;$i<=$pageTotales;$i++){
-                        if ($i==$pageCourante)
-                        {
-                          echo $i." ";
-                        }
-                        else{
-                          echo '<a href="basic_table.php?page='.$i.'">'.$i.'</a> ';
-                        }
-                      } ?>
-                      </div>
-                    <?php } ?>
-
-
-                 
         <!-- row -->
+        <div class="row mt">
+   
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>framework</th>             
+
+            </tr>
+        </thead>
+        <tbody>
+             <?PHP
+
+foreach($query as $row){
+  ?>
+            <tr>
+                <td><?PHP echo $row['id']; ?></td>
+                <td><?PHP echo $row['framework']; ?></td>
+
+
+
+            </tr>
+              <?PHP
+}
+?>
+        </tbody>
+
+    </table>
+          <script type="text/javascript">
         
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+
+    </script>
+
+          <!-- /col-md-12 -->
+        </div>
         <!-- /row -->
       </section>
-        <form action="basic_table.php" method="POST">
-                      
-          
-        
-        
-        </form>
     </section>
-
     <!-- /MAIN CONTENT -->
+
+   
+
+<div id="chart_div"></div>
+<br><br>
+
     <!--main content end-->
     <!--footer start-->
     <footer class="site-footer">
       <div class="text-center">
         <p>
-          Un compte dont la marque (x) est attribué n'est pas encore verifier par email
+          &copy; Copyrights <strong>Dashio</strong>. All Rights Reserved
         </p>
         <div class="credits">
           <!--
@@ -544,7 +430,7 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
             Buy the pro version with working PHP/AJAX contact form: https://templatemag.com/dashio-bootstrap-admin-template/
             Licensing information: https://templatemag.com/license/
           -->
-          
+          Created with Dashio template by <a href="https://templatemag.com/">TemplateMag</a>
         </div>
         <a href="basic_table.html#" class="go-top">
           <i class="fa fa-angle-up"></i>
@@ -554,15 +440,10 @@ $ALL=$CompteXC->INNER_Join_AFFICHAGE_ALL($depart,$CompteParPage);
     <!--footer end-->
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
-  <script src="lib/jquery/jquery.min.js"></script>
-  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-  <script src="lib/jquery.scrollTo.min.js"></script>
-  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-  <!--common script for all pages-->
-  <script src="lib/common-scripts.js"></script>
+
   <!--script for this page-->
-  
+
 </body>
+
 
 </html>

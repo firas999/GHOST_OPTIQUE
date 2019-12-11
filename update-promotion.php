@@ -3,7 +3,7 @@
 
 
 include "../entities/promotion.php";
-include "../core/promotionC.php";
+
 include "../core/produitC.php";
 include "../entities/produit.php";
 

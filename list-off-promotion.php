@@ -1,8 +1,13 @@
 <?PHP
-include "../core/promotionC.php";
+
 include "../entities/promotion.php";
+include "../core/produitC.php";
 
 
+
+
+  $date = date('d-m-y ');
+ /* echo $date;*/
 
 
 
@@ -11,6 +16,20 @@ include "../entities/promotion.php";
 
     
     $listOfPromotion = $promotion1C->getAllPromotion();
+
+if(isset($_POST['submit1']))
+{
+if ($_POST['submit1']=='rechercher')
+{
+    $listOfPromotion=$promotion1C->rechercherpromotion($_POST['rechercherpromotion']);
+  }
+  if($_POST['submit1']=='solde')
+{
+    $listOfPromotion=$promotion1C->trierSolde();
+  }
+}
+
+
     /*die("fin ");*/
 /*
     echo '<pre>';
@@ -267,9 +286,7 @@ die;*/
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered">
-            <a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a>
-          </p>
+          <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered">Sam Soffes</h5>
           <li class="mt">
             <a href="index.html">
@@ -277,28 +294,100 @@ die;*/
               <span>Dashboard</span>
               </a>
           </li>
-          
-          
+          <!-- <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-desktop"></i>
+              <span>UI Elements</span>
+              </a>
+            <ul class="sub">
+              <li><a href="general.html">General</a></li>
+              <li><a href="buttons.html">Buttons</a></li>
+              <li><a href="panels.html">Panels</a></li>
+              <li><a href="font_awesome.html">Font Awesome</a></li>
+            </ul>
+          </li> -->
+          <li class="sub-menu">
+            <a class="active" href="javascript:;">
+              <i class="fa fa-cogs"></i>
+              <span>Produits</span>
+              </a>
+            <ul class="sub">
+             
+              <li><a href="categorie.php">Categorie</a></li>
+              <li class="active"><a href="index.php"> Produit</a></li>
+               </ul>
+          </li>
+          <!-- <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>Extra Pages</span>
+              </a>
+            <ul class="sub">
+              <li><a href="blank.html">Blank Page</a></li>
+              <li><a href="login.html">Login</a></li>
+              <li><a href="lock_screen.html">Lock Screen</a></li>
+              <li><a href="profile.html">Profile</a></li>
+              <li><a href="invoice.html">Invoice</a></li>
+              <li><a href="pricing_table.html">Pricing Table</a></li>
+              <li><a href="faq.html">FAQ</a></li>
+              <li><a href="404.html">404 Error</a></li>
+              <li><a href="500.html">500 Error</a></li>
+            </ul>
+          </li> -->
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-tasks"></i>
-              <span>¨PROMOTION</span>
+              <span>Promotion</span>
               </a>
             <ul class="sub">
-              <li>
- <li class="active">
-                <a href="list-off-promotion.php">liste de promotions</a>
-              </li>              </li>
-              <li>
-                <a href="ajoutetmodifier.php">AJOUTER PROMOTION</a>
-              </li>
-              <li>
-              </li>
+              <li><a href="list-off-promotion.php">liste of promotion</a></li>
+             
             </ul>
           </li>
-         
-          
-          
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-th"></i>
+              <span>Comptes</span>
+              </a>
+            <ul class="sub">
+              <li><a href="basic_table.php">Clients</a></li>
+            </ul>
+          </li>
+          <!-- <li>
+            <a href="inbox.html">
+              <i class="fa fa-envelope"></i>
+              <span>Mail </span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li> -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class=" fa fa-bar-chart-o"></i>
+              <span>statistiques</span>
+              </a>
+            <ul class="sub">
+              <li><a href="affichage.php">affichage</a></li>
+              <li><a href="statistique_stock22.php">stock</a></li>
+              <li><a href="stat_profits.php">profits</a></li>
+              <li><a href="ajoutStat.html">ajouter</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-comments-o"></i>
+              <span>Chat Room</span>
+              </a>
+            <ul class="sub">
+              <li><a href="lobby.html">Lobby</a></li>
+              <li><a href="chat_room.html"> Chat Room</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="google_maps.html">
+              <i class="fa fa-map-marker"></i>
+              <span>Google Maps </span>
+              </a>
+          </li>
         </ul>
         <!-- sidebar menu end-->
       </div>
@@ -311,15 +400,19 @@ die;*/
     <section id="main-content">
       <section class="wrapper">
         <h3><i class="fa fa-angle-right"></i> Basic Table Examples</h3>
-       
-            
+       <a  href="javascript:window.print()" class="btn btn-theme03" >Imprimer la page</a>
+       <div class="trash" id="google_translate_element">  </div>
+
           <!-- /col-md-12 -->
           
         <!-- row -->
         <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel">
+
+
               <table class="table table-striped table-advance table-hover">
+
                 <h4><i class="fa fa-angle-right"></i> Liste Of Promotions</h4>
                 <hr>
                 <thead>
@@ -331,25 +424,49 @@ die;*/
                    
                      <th>NOM PRODUIT</th>
                     <th><i class=" fa fa-edit"></i> PRIX </th>
-                      <th></th>
+                      <th><i class=" fa fa-edit"></i> PRIX en promotion </th>
                   </tr>
                 </thead>
+
                 <tbody>
+                 
 <?php
 	$i =1;
+
+$date=date('Y-m-d');
+
 foreach($listOfPromotion as $obj){
+  $nouveauprix=($obj->prix*$obj->solde)/100;
+  $produitC= new produitC();
+
+  $produitC->updateprix($nouveauprix,$obj->nomproduit);
+ 
+ 
+/*echo $obj->datefin;
+echo"</br>";
+/*echo $date;
+echo $date;*/
+//echo $obj->datefin;
+  if($obj->datefin<=$date)
+  {
+    /*echo $date;*/
+  $produitC->updatetat1($obj->nomproduit);
+  }
+
   ?>
   <tr>
         <td><?PHP echo $i; ?></td>
 
-  <td><?PHP echo $obj->solde; ?> DT </td>
+
+  <td><?PHP echo $obj->solde; ?> % </td>
   <td><?PHP echo $obj->datedebut; ?></td>
   <td><?PHP echo $obj->datefin; ?></td>
   <td><?PHP echo $obj->nomproduit; ?></td>
   <td><?PHP echo $obj->prix; ?></td>
+  <td><?PHP echo $nouveauprix; ?> </td>
 
 
-              
+            
             
             
            
@@ -374,7 +491,29 @@ foreach($listOfPromotion as $obj){
 ?>
                
                 </tbody>
+                
               </table>
+
+               
+
+            
+
+             
+
+              <td>
+               <center> <form method="POST">
+                           <input type="submit" name="submit1" value="solde" >
+                           <input type="submit" name="trierDate" value="Date" >
+
+                           <input type="text" name="rechercherpromotion" id="rech" >
+                           <input type="submit" name="submit1" value="rechercher"  >
+                          
+
+
+
+               </form>
+             </center>
+           </td>
             </div>
             <!-- /content-panel -->
           </div>
@@ -408,6 +547,39 @@ foreach($listOfPromotion as $obj){
     <!--footer end-->
   </section>
   <!-- js placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+  function myFunctionProm() {
+  // Declare variables 
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("Promo_Input");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("Promo_Table");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those who don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    } 
+  }
+
+}
+
+
+
+
+
+
+
+
+</script>
   <script src="lib/jquery/jquery.min.js"></script>
   <script src="lib/bootstrap/js/bootstrap.min.js"></script>
   <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
@@ -416,6 +588,16 @@ foreach($listOfPromotion as $obj){
   <!--common script for all pages-->
   <script src="lib/common-scripts.js"></script>
   <!--script for this page-->
+
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
   
 </body>
 
