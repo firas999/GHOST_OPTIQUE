@@ -1,5 +1,15 @@
 <?php
 
+  $id=$_POST['id'];
+if($_POST['submit']=='modifier')
+{
+session_start();
+$_SESSION['hi']=$id;
+echo "trash";
+header("location: ../views/modifiercommande.html");	
+}
+else
+{
                   $id=$_POST['id'];
  $host='localhost';
                   $user2='root';
@@ -10,7 +20,8 @@
                   $query=$co->prepare($sql);
                   $query->execute();
 
-                  header("location: commande.php");
+                  header("location: ../views/commande.php");
+              }
 
 
 

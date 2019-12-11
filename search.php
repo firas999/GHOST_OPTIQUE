@@ -291,7 +291,6 @@
                 <form action="search.php" method="post">
                   Search
                 <input  class="fa fa-edit"  type="text" name="search">
-               
                 </form>
                 <hr>
                 <thead>
@@ -319,12 +318,13 @@ background:#4ECDC4;
                 <tbody>
                   
                   <?php
+                  $search=$_POST['search'];
                   $host='localhost';
                   $user2='root';
                   $pass='';
                   $db='ghostoptique';
                   $co=new PDO("mysql:host=$host;dbname=$db",$user2,$pass);
-                  $sql="SELECT * FROM commande";
+                  $sql="SELECT * FROM commande where adresse='$search'";
                   $query=$co->prepare($sql);
                   $query->execute();
                   while($data=$query->fetch()) 

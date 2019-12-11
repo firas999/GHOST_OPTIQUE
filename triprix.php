@@ -288,11 +288,6 @@
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
                 <h4><i class="fa fa-angle-right"></i> Gérer commande</h4>
-                <form action="search.php" method="post">
-                  Search
-                <input  class="fa fa-edit"  type="text" name="search">
-               
-                </form>
                 <hr>
                 <thead>
                   <tr>
@@ -324,7 +319,7 @@ background:#4ECDC4;
                   $pass='';
                   $db='ghostoptique';
                   $co=new PDO("mysql:host=$host;dbname=$db",$user2,$pass);
-                  $sql="SELECT * FROM commande";
+                  $sql="SELECT * FROM commande order by prix";
                   $query=$co->prepare($sql);
                   $query->execute();
                   while($data=$query->fetch()) 

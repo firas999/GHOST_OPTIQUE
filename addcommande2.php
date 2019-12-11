@@ -16,7 +16,8 @@
                 $holy="INSERT INTO commande (IDcommande,email,adresse,telephone,nomproduit,prix) values ('$nb','$email','$adress','$tel','$nomprod','$prix')";
                 $query=$co->prepare($holy);
                 $query=$co->query($holy);
-                header("location: ../views/commande.php");
+                header("location: ../views/index.html");
+
 
 
 
