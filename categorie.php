@@ -251,7 +251,7 @@
               <span>Dashboard</span>
               </a>
           </li>
-          <!-- <li class="sub-menu">
+          <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-desktop"></i>
               <span>UI Elements</span>
@@ -262,19 +262,19 @@
               <li><a href="panels.html">Panels</a></li>
               <li><a href="font_awesome.html">Font Awesome</a></li>
             </ul>
-          </li> -->
+          </li>
           <li class="sub-menu">
             <a class="active" href="javascript:;">
               <i class="fa fa-cogs"></i>
               <span>Produits</span>
               </a>
             <ul class="sub">
-             
+       
               <li><a href="categorie.php">Categorie</a></li>
               <li class="active"><a href="index.php"> Produit</a></li>
                </ul>
           </li>
-          <!-- <li class="sub-menu">
+          <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-book"></i>
               <span>Extra Pages</span>
@@ -290,53 +290,57 @@
               <li><a href="404.html">404 Error</a></li>
               <li><a href="500.html">500 Error</a></li>
             </ul>
-          </li> -->
+          </li>
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-tasks"></i>
-              <span>Promotion</span>
+              <span>Forms</span>
               </a>
             <ul class="sub">
-              <li><a href="list-off-promotion.php">liste of promotion</a></li>
-             
+              <li><a href="form_component.html">Form Components</a></li>
+              <li><a href="advanced_form_components.html">Advanced Components</a></li>
+              <li><a href="form_validation.html">Form Validation</a></li>
+              <li><a href="contactform.html">Contact Form</a></li>
             </ul>
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-th"></i>
-              <span>Comptes</span>
+              <span>Data Tables</span>
               </a>
             <ul class="sub">
-              <li><a href="basic_table.php">Clients</a></li>
+              <li><a href="basic_table.html">Basic Table</a></li>
+              <li><a href="responsive_table.html">Responsive Table</a></li>
+              <li><a href="advanced_table.html">Advanced Table</a></li>
             </ul>
           </li>
-          <!-- <li>
+          <li>
             <a href="inbox.html">
               <i class="fa fa-envelope"></i>
               <span>Mail </span>
               <span class="label label-theme pull-right mail-info">2</span>
               </a>
-          </li> -->
+          </li>
           <li class="sub-menu">
             <a href="javascript:;">
               <i class=" fa fa-bar-chart-o"></i>
-              <span>statistiques</span>
+              <span>Charts</span>
               </a>
             <ul class="sub">
-              <li><a href="affichage.php">affichage</a></li>
-              <li><a href="statistique_stock22.php">stock</a></li>
-              <li><a href="stat_profits.php">profits</a></li>
-              <li><a href="ajoutStat.html">ajouter</a></li>
+              <li><a href="morris.html">Morris</a></li>
+              <li><a href="chartjs.html">Chartjs</a></li>
+              <li><a href="flot_chart.html">Flot Charts</a></li>
+              <li><a href="xchart.html">xChart</a></li>
             </ul>
           </li>
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-comments-o"></i>
-              <span>SAV</span>
+              <span>Chat Room</span>
               </a>
             <ul class="sub">
-              <li><a href="livreur.php">Livraisaon</a></li>
-              <li><a href="responsive_table.php"> Livreur</a></li>
+              <li><a href="lobby.html">Lobby</a></li>
+              <li><a href="chat_room.html"> Chat Room</a></li>
             </ul>
           </li>
           <li>
